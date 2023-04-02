@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FolderWorks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #333
+        }
+
+        .folder-samples {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px
+        }
+
+        .folder-sample {
+            width: 300px;
+            height: 200px;
+            margin: 10px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 200px;
+            font-size: 18px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #333
+        }
+
+        .upload-form {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #333;
+            margin-top: 20px
+        }
+
+        .output {
+            padding: 20px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        input[type="submit"] {
+            background-color: #ddd;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>FolderWorks</h1>
+    </header>
+    <div class="container">
+        <h2>Our previous work</h2>
+        <div class="folder-samples">
+            <div class="folder-sample"><img src="static/folder1.png" /></div>
+            <div class="folder-sample"><img src="static/folder2.png" /></div>
+            <div class="folder-sample"><img src="static/folder3.png" /></div>
+            <!-- Add more folder samples here -->
+        </div>
+        <h2>Upload your custom folder design</h2>
+        <form class="upload-form" action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
+        <div class="output">
+            {{output}}
+        </div>
+    </div>
+</body>
+
+</html>
