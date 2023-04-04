@@ -1,0 +1,215 @@
+uint64_t fcn_00400900 (int64_t arg2) {
+    rsi = arg2;
+    r14 = *((rsi + 8));
+    esi = 0xd4501cd8;
+    edx = 0x4592b814;
+    ecx = 0xd135d6b;
+    rax = fcn_00400bc0 (*((rsi + 8)));
+    rcx = rax;
+    eax = 0;
+    if (rcx < 0xb) {
+        goto label_4;
+    }
+    eax = fcn.00400900;
+    edx = fcn.00400900;
+    edx += edx;
+    eax += eax;
+    eax++;
+    ecx = edx;
+    ecx ^= 0xfffffffe;
+    edx &= ecx;
+    ecx ^= eax;
+    ecx |= edx;
+    do {
+        eax = *(data.006eeef4);
+        edx = rax - 1;
+        edx *= eax;
+        if ((dl & 1) == 0) {
+label_0:
+            edx = *(r14);
+            if (ecx == 0xffffffff) {
+                goto label_5;
+            }
+        }
+        edx = *(data.006eeef4);
+        esi = *(data.006e9064);
+        eax = *(data.006e9064);
+        eax ^= 0xc1e9ec0b;
+        edi = esi;
+        edi &= 0x41e9ec0b;
+        edi += edi;
+        ebx = eax;
+        ebx ^= edi;
+        edi &= eax;
+        edi = rbx + rdi*2;
+        eax = edx;
+        eax -= edi;
+        eax *= edx;
+        esi += 0xc1e9ec0c;
+        edx = 0;
+        eax = edx:eax / esi;
+        edx = edx:eax % esi;
+    } while (edx != 0);
+    goto label_0;
+label_5:
+    eax = 0;
+    if (dl != 0x31) {
+        goto label_4;
+    }
+    eax = 0;
+    if (*((r14 + 1)) != 0x5f) {
+        goto label_4;
+    }
+    cl = *(data.006e9060);
+    cl += 0xfc;
+    eax = 0;
+    if (*((r14 + 2)) != cl) {
+        goto label_4;
+    }
+    eax = 0x4a8d5923;
+    do {
+        ecx = *(data.006eeef4);
+        edx = *(data.006e9064);
+        edx += eax;
+        edx = ~edx;
+        edx += ecx;
+        edx += 0xffffffff;
+        edx *= ecx;
+        if ((dl & 1) == 0) {
+label_1:
+            ecx = *((r14 + 3));
+            edx = *(data.006eeef4);
+            esi = rdx - 1;
+            esi *= edx;
+            esi &= 1;
+            edx = *(data.006e9064);
+            edi = *(data.006e9064);
+            edi ^= 0xc1e9ec0a;
+            edx &= 0x41e9ec0a;
+            edx = rdi + rdx*2;
+            if (esi == edx) {
+                goto label_6;
+            }
+        }
+        ecx = *(data.006eeef8);
+    } while (ecx >= 0x27);
+    goto label_1;
+label_6:
+    eax = 0;
+    if (cl != 0x6e) {
+        goto label_4;
+    }
+    eax = 0;
+    if (*((r14 + 4)) != 0x30) {
+        goto label_4;
+    }
+    eax = 0;
+    if (*((r14 + 5)) != 0x77) {
+        goto label_4;
+    }
+    eax = fcn.00400900;
+    ecx = fcn.00400900;
+    ecx += ecx;
+    edx = rax + rax;
+    edx++;
+    eax = ecx;
+    eax ^= 0xfffffffe;
+    ecx &= eax;
+    eax ^= edx;
+    eax |= ecx;
+    do {
+        ecx = *(data.006eeef4);
+        edx = rcx - 1;
+        edx *= ecx;
+        if ((dl & 1) == 0) {
+label_2:
+            ecx = *((r14 + 6));
+            if (eax == 0xffffffff) {
+                goto label_7;
+            }
+        }
+        ecx = *(data.006eeef8);
+    } while (ecx >= 0x56);
+    goto label_2;
+label_7:
+    eax = 0;
+    if (cl != 0x5f) {
+        goto label_4;
+    }
+    eax = 0;
+    if (*((r14 + 7)) != 0x68) {
+        goto label_4;
+    }
+    eax = *(data.006eeef4);
+    ecx = rax - 1;
+    ecx *= eax;
+    do {
+        ecx = *((r14 + 8));
+        eax = *(data.006eeef8);
+    } while (eax > 0x4d);
+    eax = 0;
+    if (cl != 0x30) {
+        goto label_4;
+    }
+    eax = *(data.006eeef4);
+    ecx = *(data.006e9064);
+    ecx = ~ecx;
+    ecx += eax;
+    ecx *= eax;
+    do {
+        r8d = *((r14 + 9));
+        edx = *(data.006e9060);
+        dl += 8;
+        r9d = *(data.006eeef8);
+        esi = *(data.006e9064);
+        edi = *(data.006e9064);
+        edi = ~edi;
+        ecx = esi;
+        ecx &= 0x3e16139a;
+        eax = edi;
+        eax &= 0xc1e9ec65;
+        eax |= ecx;
+        esi ^= 0x41e9ec65;
+        edi &= 0x3e16139a;
+        edi |= esi;
+        edi = ~edi;
+        edi += edi;
+        ecx = eax;
+        ecx ^= edi;
+        edi &= eax;
+        eax = rcx + rdi*2;
+    } while (r9d >= eax);
+    eax = 0;
+    if (r8b != dl) {
+        goto label_4;
+    }
+    ecx = 0xc1e9ec23;
+    eax = fcn.00400900;
+    eax += eax;
+    edx = eax;
+    edx = ~edx;
+    edx &= eax;
+    esi = 0xc1e9ec0a;
+    do {
+        eax = *(data.006eeef8);
+        edi = *(data.006e9064);
+        edi += ecx;
+        if (eax < edi) {
+label_3:
+            al = (*((r14 + 0xa)) == 0x5f) ? 1 : 0;
+            edi = *(data.006e9064);
+            edi += esi;
+            if (edx == edi) {
+                goto label_4;
+            }
+        }
+        eax = *(data.006eeef4);
+        edi = *(data.006e9064);
+        edi = ~edi;
+        edi += eax;
+        edi *= eax;
+    } while ((dil & 1) != 0);
+    goto label_3;
+label_4:
+    return rax;
+}

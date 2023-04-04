@@ -1,0 +1,41 @@
+int32_t main (int32_t argc, char ** argv) {
+    rdi = argc;
+    rsi = argv;
+    rbx = rsi;
+    al = fcn_004008c0 (rdi, rsi);
+    if (al != 0) {
+        rsi = rbx;
+        al = fcn_00400900 (ebp);
+        if (al != 0) {
+            puts ("You have completed stage 1");
+            rsi = rbx;
+            al = fcn_00400bd0 (ebp);
+            if (al == 0) {
+                goto label_0;
+            }
+            puts ("You have completed stage 2");
+            fcn_0048ab10 (ebp, rbx);
+            al = fcn_00402120 (ebp, rbx);
+            if (al == 0) {
+                goto label_0;
+            }
+            puts ("You have completed stage 3");
+            rsi = rbx;
+            al = fcn_00403940 (ebp);
+            if (al == 0) {
+                goto label_0;
+            }
+            eax = puts ("You have completed stage 4");
+            rsi = *((rbx + 8));
+            ebx = 0;
+            eax = 0;
+            printf ("Here is your flag: cscg{%s}\n");
+        }
+    } else {
+label_0:
+        puts ("Bad input");
+        ebx = 0xffffffff;
+    }
+    eax = 0xffffffff;
+    return eax;
+}
