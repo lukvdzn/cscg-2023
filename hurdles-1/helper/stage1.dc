@@ -1,17 +1,23 @@
-uint64_t fcn_00400900 (int64_t arg2) {
-    rsi = arg2;
-    r14 = *((rsi + 8));
+uint64_t verify_stage_1 (argv) {
+    rsi = argv;
+    r14 = argv[1];
+
     esi = 0xd4501cd8;
     edx = 0x4592b814;
     ecx = 0xd135d6b;
-    rax = fcn_00400bc0 (*((rsi + 8)));
+    
+    // verify length of argument > 11 = 0xb
+    rax = fcn_00400bc0 (argv[1]);
     rcx = rax;
     eax = 0;
-    if (rcx < 0xb) {
-        goto label_4;
+    
+    if (rax < 0xb)
+    {
+        return 0;
     }
-    eax = fcn.00400900;
-    edx = fcn.00400900;
+
+    eax = verify_stage_1;
+    edx = verify_stage_1;
     edx += edx;
     eax += eax;
     eax++;
@@ -21,19 +27,22 @@ uint64_t fcn_00400900 (int64_t arg2) {
     ecx ^= eax;
     ecx |= edx;
     do {
-        eax = *(data.006eeef4);
+        eax = (dword) *(data_3_address); // null byte initially
         edx = rax - 1;
         edx *= eax;
         if ((dl & 1) == 0) {
-label_0:
-            edx = *(r14);
+        label_0:
+
+            // Important at label_5
+            edx = (byte) *(r14);
+            
             if (ecx == 0xffffffff) {
                 goto label_5;
             }
         }
-        edx = *(data.006eeef4);
-        esi = *(data.006e9064);
-        eax = *(data.006e9064);
+        edx = *(data_3_address);
+        esi = *(data_2_address);
+        eax = *(data_2_address);
         eax ^= 0xc1e9ec0b;
         edi = esi;
         edi &= 0x41e9ec0b;
@@ -51,64 +60,99 @@ label_0:
         edx = edx:eax % esi;
     } while (edx != 0);
     goto label_0;
+
 label_5:
+    
+    
     eax = 0;
+    
+    // dl = argv[0], first byte has to be 0x31 = '1'
     if (dl != 0x31) {
         goto label_4;
     }
+
     eax = 0;
+    
+    // second byte has to be 0x5f = '_'
     if (*((r14 + 1)) != 0x5f) {
         goto label_4;
     }
-    cl = *(data.006e9060);
-    cl += 0xfc;
+
+    cl = *(data_4_address); // cl = 6f
+    cl += 0xfc; // cl = 6b
+    
     eax = 0;
-    if (*((r14 + 2)) != cl) {
+
+    // third byte has to be 0x6b = 'k'
+    if (*((r14 + 2)) != cl ) { 
         goto label_4;
     }
+
     eax = 0x4a8d5923;
     do {
-        ecx = *(data.006eeef4);
-        edx = *(data.006e9064);
+        ecx = *(data_3_address);
+        edx = *(data_2_address);
         edx += eax;
         edx = ~edx;
         edx += ecx;
         edx += 0xffffffff;
         edx *= ecx;
+
+        // always holds
         if ((dl & 1) == 0) {
 label_1:
+            
+            // important at label_6
             ecx = *((r14 + 3));
-            edx = *(data.006eeef4);
+
+
+            edx = *(data_3_address);
             esi = rdx - 1;
             esi *= edx;
             esi &= 1;
-            edx = *(data.006e9064);
-            edi = *(data.006e9064);
+            edx = *(data_2_address);
+            edi = *(data_2_address);
             edi ^= 0xc1e9ec0a;
             edx &= 0x41e9ec0a;
             edx = rdi + rdx*2;
+
+            // we directly go to label_6
             if (esi == edx) {
                 goto label_6;
             }
         }
-        ecx = *(data.006eeef8);
+        ecx = *(data_1_address);
     } while (ecx >= 0x27);
     goto label_1;
+
+
 label_6:
     eax = 0;
+
+    // argv[3] must be 0x6e = 'n'
     if (cl != 0x6e) {
         goto label_4;
     }
+
     eax = 0;
+    
+    // argv[4] must be 0x30 = '0'
     if (*((r14 + 4)) != 0x30) {
         goto label_4;
     }
+
     eax = 0;
+    
+    // argv[5] must be 0x77 = 'w'
+
     if (*((r14 + 5)) != 0x77) {
         goto label_4;
     }
-    eax = fcn.00400900;
-    ecx = fcn.00400900;
+
+    // argv = 1_kn0w...
+
+    eax = verify_stage_1;
+    ecx = verify_stage_1;
     ecx += ecx;
     edx = rax + rax;
     edx++;
@@ -118,51 +162,81 @@ label_6:
     eax ^= edx;
     eax |= ecx;
     do {
-        ecx = *(data.006eeef4);
+
+
+        ecx = *(data_3_address);
         edx = rcx - 1;
         edx *= ecx;
+
+        // always true
         if ((dl & 1) == 0) {
 label_2:
-            ecx = *((r14 + 6));
+
+            // Important, cl contains argv[6]
+
+            ecx = (byte) *((r14 + 6));
+            
             if (eax == 0xffffffff) {
                 goto label_7;
             }
         }
-        ecx = *(data.006eeef8);
+        ecx = *(data_1_address);
     } while (ecx >= 0x56);
     goto label_2;
 label_7:
     eax = 0;
+
+    // argv[6] = '_'
+
     if (cl != 0x5f) {
         goto label_4;
     }
+    
     eax = 0;
+    
+    // argv[7] = 'h'
     if (*((r14 + 7)) != 0x68) {
         goto label_4;
     }
-    eax = *(data.006eeef4);
+
+
+    eax = *(data_3_address);
     ecx = rax - 1;
     ecx *= eax;
+
     do {
-        ecx = *((r14 + 8));
-        eax = *(data.006eeef8);
+        // important cl = argv[8]
+        
+        ecx = (byte) *((r14 + 8));
+        eax = *(data_1_address);
     } while (eax > 0x4d);
+
     eax = 0;
+    
+    // argv[8] = '0'
     if (cl != 0x30) {
         goto label_4;
     }
-    eax = *(data.006eeef4);
-    ecx = *(data.006e9064);
+
+
+    eax = *(data_3_address);
+    ecx = *(data_2_address);
     ecx = ~ecx;
     ecx += eax;
     ecx *= eax;
     do {
+
+        // important r8l = argv[9]
         r8d = *((r14 + 9));
-        edx = *(data.006e9060);
+
+        
+        /* dl will be set to 'w' */ 
+        edx = *(data_4_address);
         dl += 8;
-        r9d = *(data.006eeef8);
-        esi = *(data.006e9064);
-        edi = *(data.006e9064);
+
+        r9d = *(data_1_address);
+        esi = *(data_2_address);
+        edi = *(data_2_address);
         edi = ~edi;
         ecx = esi;
         ecx &= 0x3e16139a;
@@ -179,37 +253,49 @@ label_7:
         edi &= eax;
         eax = rcx + rdi*2;
     } while (r9d >= eax);
+
+
     eax = 0;
+    
+    // argv[9] = 'w'
     if (r8b != dl) {
         goto label_4;
     }
+
     ecx = 0xc1e9ec23;
-    eax = fcn.00400900;
+    eax = verify_stage_1;
     eax += eax;
     edx = eax;
     edx = ~edx;
     edx &= eax;
     esi = 0xc1e9ec0a;
+    
     do {
-        eax = *(data.006eeef8);
-        edi = *(data.006e9064);
+        eax = *(data_1_address);
+        edi = *(data_2_address);
         edi += ecx;
+        
         if (eax < edi) {
-label_3:
-            al = (*((r14 + 0xa)) == 0x5f) ? 1 : 0;
-            edi = *(data.006e9064);
-            edi += esi;
+        
+            label_3:
+                // argv[10] = '_'
+                al = (*((r14 + 0xa)) == 0x5f) ? 1 : 0;
+                edi = *(data_2_address);
+                edi += esi;
             if (edx == edi) {
                 goto label_4;
             }
         }
-        eax = *(data.006eeef4);
-        edi = *(data.006e9064);
+        eax = *(data_3_address);
+        edi = *(data_2_address);
         edi = ~edi;
         edi += eax;
         edi *= eax;
     } while ((dil & 1) != 0);
+    
     goto label_3;
+
+
 label_4:
     return rax;
 }
