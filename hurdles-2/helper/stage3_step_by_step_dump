@@ -1,0 +1,251 @@
+// 1_kn0w_h0w_2448_abcdefghijklmnopqr
+R14 = argv
+
+
+local_40: [0x7fffffffdb28] = argv[18] ^ 0x66
+
+R12 = local_40 + 0x1234567812345678
+// RDI = &argv[23]
+
+// RSI = &local_40
+local_40 = argv[23]
+
+eax = argv[23] ^ 0x44 << 8
+R12 += eax
+
+r8d = argv[15]
+
+// 0x402d30
+
+al = 0x11
+rdi = ~argv[15]
+cl = 0
+bl = argv[15] ^ 0xee
+dl = ~argv[15] ^ 0x11
+dl = ~(~argv[15] ^ 0x11)
+eax =  ( ~(~argv[15] ^ 0x11) ) << 16
+
+r12 += ( ~(~argv[15] ^ 0x11) ) << 16
+r8 = argv[16]
+
+
+r12 = 0x1234567812345678 + (argv[18] ^ 0x66) + (argv[23] ^ 0x44 << 8) + ( ~(~argv[15] ^ 0x11) ) << 16
+z = r12
+
+
+a = argv[16]
+b = 0x99
+c = 0x66
+
+// 0x402e9e - instruction finished
+rax:         ( (a & ~b) | (b & ~a) | (~a & ~c) )
+rbx:         ~( b | (c & ~a) )
+rcx:         0
+rdx:         ( (a & ~b) | (b & ~a) | (~a & ~c) )
+rdi:         ( a & ~b & ~c )
+rsi:         b & c & ~a
+r8 :         (a & b) | (c & ~a)
+r9 :         ~a & c
+r10:         (a | c) & (a | ~b) & (b | ~a)
+r11:          0
+r12:   z
+r13:             0x6008
+r14:     0x7ffc2bbab59d
+
+
+
+
+// pre-instruction 0x402f5a
+a = argv[16]
+b = 0x99
+c = 0x66 
+
+rax:         - 
+rbx:         ~( b | (c & ~a) )
+rcx:         -
+rdx:         -
+rdi:         ( a & ~b & ~c )
+rsi:         -
+r8 :         (a & b) | (c & ~a)
+r9 :         ~a & c
+r10:         (a | c) & (a | ~b) & (b | ~a)
+r11:          0
+r12:   z + ( ( (a & ~b) | (b & ~a) | (~a & ~c) ) << 24 )
+r13:             0x6008
+r14:     0x7ffc2bbab59d
+r15: 
+
+
+
+
+
+// pre instruction 0x40339e
+a = argv[16]
+b = 0x99
+c = 0x66
+d = argv[21]
+e = argv[32]
+f = argv[25]
+
+rax:         f
+rbx:         -
+rcx:         -
+rdx:         -
+rdi:         f
+rsi:         -
+r8 :         -
+r9 :         (d ^ 0x22) << 32
+r10:         (a | c) & (a | ~b) & (b | ~a)
+r11:          0
+r12:   ( z + ( ( (a & ~b) | (b & ~a) | (~a & ~c) ) << 24 ) ) + ( (d ^ 0x22) << 32) + (e ^ 0x88) << 40
+r13:             0x6008
+r14:     -
+r15:     -
+
+
+
+
+
+
+
+
+
+
+// pre instruction - 0x4034f1 (function call)
+a = argv[16]
+b = 0x99
+c = 0x66
+d = argv[21]
+e = argv[32]
+f = argv[25]
+
+rax:         -
+rbx:         -
+rcx:         &local_40
+rdx:         input_string_pointer
+rdi:         r12
+rsi:         (f ^ 0x77) << 48
+r8 :         local_41 @ 0x7fffffffdb27
+r9 :         0xe7f798d
+r10:         (a | c) & (a | ~b) & (b | ~a)
+r11:          0
+r12:   ( z + ( ( (a & ~b) | (b & ~a) | (~a & ~c) ) << 24 ) ) + ( (d ^ 0x22) << 32) + (e ^ 0x88) << 40
+r13:             0x6008
+r14:     input_string_pointer
+r15:     -
+
+local_40 = (f ^ 0x77) << 48
+
+
+
+
+// pre 0x403653
+
+local_40 = lshift_40 + ((f ^ 0x77) << 48)
+
+a = argv[16]
+b = 0x99
+c = 0x66
+d = argv[21]
+e = argv[32]
+f = argv[25]
+g = argv[22]
+h = 0xcc ~h = 0x33
+
+
+rax:         ( g | h )
+rbx:         ( ~g & ~h )
+rcx:         h
+rdx:         ( (g & ~h) | (h & ~g) )
+rdi:         0
+rsi:         local_40
+r8 :         0
+r9 :         0
+r10:         g & h
+r11:         -
+r12:         lshift_40
+r13:          0x6008
+r14:          0
+r15:          -
+rbp:          h
+
+local_41 = g
+
+
+
+
+
+// pre - 0x40377f
+
+local_40 = lshift_40 + ((f ^ 0x77) << 48)
+
+a = argv[16]
+b = 0x99
+c = 0x66
+d = argv[21]
+e = argv[32]
+f = argv[25]
+g = argv[22]
+h = 0xcc ~h = 0x33
+
+
+rax:         (local_40 + (( (g & h) | (~g & ~h) ) << 56) + 0x3d77d3e81545bddd) & 0xa6c4f78aa6b6e1bf
+rbx:         ~( g | h )
+rcx:         0x1c69f8ecc97df44b
+rdx:         ((local_40 + (( (g & h) | (~g & ~h) ) << 56) + 0x3d77d3e81545bddd) ^ 0xa6c4f78aa6b6e1bf) + 0x7f3e35d91d032a1c
+rdi:         -
+rsi:         0x7f3e35d91d032a1c
+r8 :         0
+r9 :         0
+r10:         g & h
+r11:         -
+r12:         lshift_40
+r13:          0x6008
+r14:          0
+r15:          -
+rbp:          h
+
+local_41 = g
+
+
+
+
+
+// final dump
+
+local_40 = lshift_40 + ((f ^ 0x77) << 48)
+
+a = argv[16]
+b = 0x99
+c = 0x66
+d = argv[21]
+e = argv[32]
+f = argv[25]
+g = argv[22]
+h = 0xcc ~h = 0x33
+
+lshift56_plus_const = (local_40 + (( (g & h) | (~g & ~h) ) << 56) + 0x3d77d3e81545bddd)
+
+
+rax:         2 * (lshift56_plus_const & 0xa6c4f78aa6b6e1bf )  + (lshift56_plus_const ^ 0xa6c4f78aa6b6e1bf) + 0x1bc3348d44036064
+rbx:         ~( g | h )
+rcx:         -
+rdx:         -
+rdi:         -
+rsi:         -
+r8 :         0
+r9 :         0
+r10:         g & h
+r11:         -
+r12:         lshift_40
+r13:          0x6008
+r14:          0
+r15:          -
+rbp:          h
+
+local_41 = g
+
+
+
+// final
+rax == 0x197c13b9bb82c978
