@@ -1,0 +1,261 @@
+// 1_kn0w_h0w_2448_0bfdec47i0klmnop5r
+
+int stage4()
+{
+    entry_0x404f9:
+    
+    int64 local_0x8@0x7fffffffdb58;
+    int64 local_0x18@0x7fffffffdb68 = argv;
+    int64 local_0x28@0x7fffffffdb78;
+
+    // fun_set_prsi_to_rdi_plusi8
+    {
+        local_0x8 = argv[1];
+    }
+
+    
+    jmp_0x4042db:
+
+    // fun_set_prsi_prdi
+    {
+        local_0x8 = argv[1];
+    }
+
+    r14 = argv[1];
+    
+
+    jump_0x40463e:
+
+    
+    // fun_str_len_obf
+    {
+        local_0x8 = str_len;
+    }
+
+
+    // fun_setb_if_strlen_greater_34
+    {
+        local_0x8 = str_len == 34;
+    }
+
+    r15d = str_len == 34;
+
+    local_0x28 = argv[1];
+
+    // fun_local_0x8_to_flag
+    {
+        flag = (int32) *0x6eef86;
+        local_0x8 = flag;
+    }
+
+    // rdi = flag;
+
+    // fun_ret_transform_if_rdi_less_0x4a
+    {
+        ecx = 2 - (flag < 0x4a);
+
+        edx = 0x7e6d + *(4 * ((flag < 0x4a) | 0x2) + 0x6ea820);
+        rax = 0x7e6d + *(4 * ((flag < 0x4a) | 0x2) + 0x6ea820) + *(8 * (2 - (flag < 0x4a)) + 0x6ea830);
+    }
+
+    edx = ( ((0xa * (al & 0x1) ) - 0x817369fd) + 0x75d3e377 ) & 0x7e8c969c;
+    esi = ((0x8a2c1c88 - ((0xa * (al & 0x1) ) - 0x817369fd)) & 0x7e8c969c) << 1;
+    edi = ~( ( ( 0x8a2c1c88 - ((0xa * (al & 0x1) ) - 0x817369fd) ) ^ 0x81736963) | (( ((0xa * (al & 0x1) ) - 0x817369fd) + 0x75d3e377 ) & 0x7e8c969c) ) | (( ((0xa * (al & 0x1) ) - 0x817369fd) + 0x75d3e377 ) & 0x7e8c969c) ;
+
+    // 0x4053fa
+}
+
+// check when is read to 0x7fffffffdb60
+
+
+// 0x406f6a
+// all registers have same values across different inputs
+0x407078: call@0x488be0
+
+0x4073bf
+{
+   rdi = &local_0x8;
+}
+
+
+// fun_@0x0489496
+{
+    local_0x8 = 0x0;
+}
+
+0x4073c9
+
+rdi = local_0x8
+
+
+0x407531:
+r12 = argv[1]
+
+call@0x487ff0:
+{
+    al = rdi == 0
+}
+
+0x407676
+edi = ;
+ecx = 0xffffffc7 * ((rdi == 0) & 0x1);
+
+
+0x407cfa:
+rsi = &local_0x8
+rdi = argv[1]
+// fun_0x488750
+{
+    local_0x8 = str_len
+}
+
+0x407d04:
+rdi = str_len
+
+
+0x4080d2:
+
+// fun_0x4896b0
+{
+    local_0x8 = rdi == 0;
+}
+
+local_0x10@0x7fffffffdb60 = local_0x8
+
+
+// fun_0x4089300
+{
+    rdi = &local_0x8
+}
+
+
+
+// 0x040a8f9 - 0x40e77a
+
+
+0x40a8f9:
+
+r12 = &local_0x8
+r14d = 0x1
+rdi = local_0x8
+
+
+
+0x040a8f9:
+// this is the loop
+
+for(i < 0x22):
+    local_0x10 = i;
+
+    call 0x004895a0
+    {
+        local_0x8 = argv[1] + i;
+    }
+
+    local_0x8 = argv[1]
+
+
+
+    0x040bc7e:
+    // fun_0x00488790
+    {
+        local_0x8 = (byte) argv[1][i];
+    }
+
+    r12 = &local_0x8;
+
+    0x40beb6:
+    // call fun_0xFUN_004885f0
+    {
+        local_0x8 = (int64) argv[1][i];
+    }
+
+    r14 = (int64) argv[1][i];
+
+    0x40c214:
+    // call fun_0x488f00
+    rsi = &local_0x8;
+    {
+        local_0x8 = i << 8;
+    }
+
+    rdi = (i << 8);
+
+    0x40c5a3:
+    //call fun 0x488c80
+    rsi = argv[1][i]
+    {
+        rax = (i << 8) & argv[1][c];
+        local_0x8 = (i << 8) | (argv[1][i]);
+    }
+
+    rdi = (i << 8) | (argv[1][i]);
+
+
+    0x40c833:
+    // call fun_0x488f10
+    rsi = &local_0x8;
+    {
+        local_0x8 = 8 * ((i << 8) | (argv[1][i])) + 0x4905f0;
+    }
+
+    rdi =  8 * ((i << 8) | (argv[1][i])) + 0x4905f0;
+    
+    0x40c932:
+    // call fun_0x488ed0
+    rsi = &local8;
+    {
+        local_0x8 = *rdi;
+    }
+
+    rdi = local_0x8;
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /** THIS RIGHT HERE IS THE RELEVANT CHECK */
+
+    0x40cc15:
+    // call fun_0x4895e0
+    rsi = &local_0x8
+    {
+        rbx = &local_0x8;
+        
+        0x489602:
+        // call rdi = fun_0x41db70
+        {
+            *(0x41db70 + 0x2d138a) = 0x31;
+             al = *(0x41db7a + 0x2d137f) == 0
+        }
+
+        local_0x8 = al;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    local_0x34@0x7fffffffdb84 = 0x1
+
+    0x40cebe:
+    // call fun_0x488810
+    rsi = r8b
+    {
+        local_0x8 = ( local_0x8 & local_0x34 ) & 0x1
+    }
+
+    0x40cffe:
+    cl = (byte) local_0x8 // to investigate
+    local_0x10 = (int32) ecx
+    
+
+    0x40d162:
+    rdi = local_0x18
+    rsi = &local_0x8
+
+
+    0x40cc1a

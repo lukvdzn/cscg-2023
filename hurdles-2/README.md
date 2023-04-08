@@ -114,7 +114,7 @@ for example:
 
 The `logic` module of the [sympy](https://docs.sympy.org/latest/modules/logic.html)
 package was used for the boolean simplifications. The 
-file [stage3_step_by_step](./helper/stage3_step_by_step_dump)
+file [stage3_step_by_step](./helper/stage3_step_by_step)
 contains the register contents at several checkpoints.
 
 #### Simplified Final Operation
@@ -151,6 +151,89 @@ for the least significant byte (`input[18]`)
 and work our way up. Indeed, by doing so yielded the next 8 valid 
 characters at their respective indices. 10 characters to find remain
 for the last stage.
+
+
+### Stage 4
+Analyzing the decompiled Ghidra code would be pointless, since the 
+actual final check took place after a dynamic address jump  at the end of 
+the stage_4 function
+```C
+void stage_4(void)
+{
+    uint uVar1;
+    undefined8 uVar2;
+    uint uVar3;
+    uint uVar4;
+    uint uVar5;
+    long in_RSI;
+    undefined8 local_60;
+    long local_50;
+    local_50 = argv;
+    
+    
+    // ...
+ 
+    // the relevant part
+     
+    LAB_004040f9:
+    set_prsi_to_rdi_plusi8(local_50,&local_60);
+    set_prsi_prdi((undefined8 *)CONCAT44(local_60._4_4_,(uint)local_60),&local_60);
+    str_len_obf();
+    local_0x8_if_str_len_bigger_34(CONCAT44(local_60._4_4_,(uint)local_60),&local_60);
+    uVar1 = (uint)local_60;
+    stub();
+    set_local_0x8_to_dat((undefined4 *)&local_60);
+    uVar2 = ret_transform_if_rdi_less_0x4a((uint)local_60);
+    uVar3 = (uVar1 & 0xff) * 0x13 + 0xfc060697;
+    uVar5 = ~uVar3;
+    uVar4 = uVar3 & 0x3c090705 | uVar5 & 0xc3f6f8fa;
+    uVar3 = ~(uVar5 & 0x3c090705 | uVar4) * 2;
+    /* WARNING: Could not recover jumptable at 0x00406f68. Too many branches */
+    /* WARNING: Treating indirect jump as call */
+    (*(code *)((long)(*(int *)(&DAT_006eb600 +
+                              (long)(int)(-0x49e56f53 - ((uVar1 & 0xff) * -0x36 + -0x49e56f6e))
+                              * 4) + 0xf6ae) +
+              *(long *)(&DAT_006eb890 +
+                       (long)(int)((uVar4 & ~uVar3 | ~uVar4 & uVar3) + 0x400300f8 +
+                                  ~(~uVar3 & ~uVar4 | uVar3 ^ uVar4) * 2) * 8)))();
+    return;
+    
+    // ..
+}
+```
+
+The jump brings us to an enormous loop, spanning the address range 
+`0x040a8f9 - 0x40e77a`. Somewhere in here, the final check is executed.
+After bazillion gdb sessions I stumbled upon a weird function within
+another function, which I initially deferred due to dynamic address calls:
+
+```assembly
+0x40cc15  MOV     RSI,R12                   ; RSI = &local_0x8
+0x40cc18  CALL    RAX@0x4895ff              ; dynamic call to function wrapper
+0x40cc1f  ...
+```
+
+The called function called another function before storing some return value
+in the local variable. Intuitively, the check was performed 
+in the other function and the return value would be the result.
+But evil as it is, the checks for **each** 
+possible character were somehow
+encoded as individual functions, whose addresses were dynamically resolved
+**using** the input characters:
+
+```assembly
+0x4895ff  MOV     RBX,RSI                   ;  RBX = RSI = &local_0x8
+0x489602  CALL    RDI                       ;  RDI = &char_check_function, ret 1 if char valid
+0x489604  MOV     byte ptr [RBX],AL         ;  we create a hook here, AL contains ret value
+0x489606  ...
+```
+
+All we now need to do is break at our hook address and enumerate again all possible
+characters for each of the remaining 10 input characters, once `AL == 0x1` we
+store the enumerated character and move on to the next position.
+The script [stage4_rev.py](./stage4_rev.py) automates this process.
+The final found input turned out to be `1_kn0w_h0w_2448_0bfu5c4710n_w0rk5!`.
+
 
 ## Flag
 ```
