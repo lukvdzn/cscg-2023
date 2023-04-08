@@ -1,6 +1,7 @@
 
-# string must be at least 33 bytes
+# string must be at least 33 bytes, padded with letters
 STAGE2_INPUT = "1_kn0w_h0w_2448_abcdefghijklmnopqr"
+INDICES_TO_FIND = [18, 23, 15, 16, 21, 32, 25, 22]
 RCX_COMPARE_FLAG = 0x197c13b9bb82c978
 
 
@@ -26,15 +27,12 @@ def cmpute_(buff):
     return rax
 
 
-
 def main():
     buff = bytearray(STAGE2_INPUT.encode('ascii'))
 
-    indxs = [18, 23, 15, 16, 21, 32, 25, 22]
-
-    # find chars starting with least significant byte
-    for j, i in enumerate(indxs):
-        for byt in list(range(33, 127)):
+    # find chars
+    for j, i in enumerate(INDICES_TO_FIND):
+        for byt in list(range(32, 127)):
             buff[i] = byt
             rax = cmpute_(buff)
 
@@ -42,10 +40,10 @@ def main():
             mask = int(mask, 16)
 
             if (rax & mask) == (RCX_COMPARE_FLAG & mask):
-                print(f"Found [{j + 1}]: {buff[i].to_bytes(1, 'big').decode('ascii')}")
+                print(f"Found [{i}]: {buff[i].to_bytes(1, 'big').decode('ascii')}")
                 break
 
-    print(f"Stage 3 interim input: {buff.decode('ascii')}")
+    print(f"Stage 3 input: {buff.decode('ascii')}")
 
 
 if __name__ == '__main__':

@@ -103,14 +103,6 @@ r14:     -
 r15:     -
 
 
-
-
-
-
-
-
-
-
 // pre instruction - 0x4034f1 (function call)
 a = argv[16]
 b = 0x99

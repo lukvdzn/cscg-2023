@@ -13,6 +13,14 @@ User ID: torukmagto
 - [x] Existential
 - [x] Casino
 
+#### Reverse Engineering
+- [x] Hurdles (Part 1)
+- [x] Hurdles (Part 2)
+- [x] Intro to Reverse Engineering 1
+- [x] Intro to Reverse Engineering 2
+- [x] Intro to Reverse Engineering 3
+- [ ] Traps
+
 #### Forensics
 - [ ] Ghost Flag
 - [x] Intro to Forensics 1
@@ -22,14 +30,6 @@ User ID: torukmagto
 
 #### Hardware
 - [ ] Breaking the iCE
-
-#### Reverse Engineering
-- [x] Hurdles (Part 1)
-- [ ] Hurdles (Part 2)
-- [x] Intro to Reverse Engineering 1
-- [x] Intro to Reverse Engineering 2
-- [x] Intro to Reverse Engineering 3
-- [ ] Traps
 
 #### Pwn
 - [ ] ConsoleApplications1
