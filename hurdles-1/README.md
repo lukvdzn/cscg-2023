@@ -202,5 +202,7 @@ to `0x3419`. A crude [gen_stage2.c](./gen_stage2.c) program which uses 4 loops t
 all possible ASCII characters correctly finds the intermediate input string: `1_kn0w_h0w_2448`.
 
 ## Flag
-// First four letters in Uppercase
-``CSCG{y4y_1_50lv3d_7h3_f1r57_h4lf}``
+```
+// First four letters in uppercase
+CSCG{y4y_1_50lv3d_7h3_f1r57_h4lf}
+```
