@@ -1,137 +1,205 @@
 ### ID: torukmagto
 
-# Heap Manipulation Craft
-(This challenge, deemed an introduction to heap exploits, truly proved to be an extremely 
-frustrating problem for my inexperienced a**.)
+# Hurdles - Part 1
+#### Preface
+Reverse engineering is one of my favorite categories; however, as this is my first time coming into contact with CTFs and binary cracking in general, it was an extremely daunting yet fulfilling experience. Staring at assembly code for hours to find patterns at such a low level can truly drive someone crazy. Persistence is key.
 
-## Source Code Analysis
-The supplied binary is accompanied by its source code [main.c](./challenge-files/main.c),
-which at first glance seems to provide an easily exploitable program.
-We somehow have to find a way to call 
+
+
+## Reverse Engineering
+The [binary](./challenge-files/hurdles) 
+is subdivided into two parts. The first part is made up of stage{1, 2},
+after which we would receive an interim flag, whereas stage{3, 4} constitue part 2 
+, and upon solving them we would receive the final flag. Here is the 
+main function decompiled by Ghidra:
 ```c
-void execute()
+int8 main(int param_1,char** param_2)
 {
-    long address;
+  // check input length < 35 
+  char cVar1 = FUN_004008c0();
+  
+  if (cVar1 != 0)
+  {
+      cVar1 = FUN_stage1(param_1,param_2);
+      
+      if (cVar1 != 0)
+      {
+          puts("You have completed stage 1");
+          cVar1 = FUN_stage2(param_1,param_2);
+      
+          if (cVar1 != 0)
+          {
+              puts("You have completed stage 2");
+          
+              // print interim flag
+              FUN_0048ab10(param_1,param_2);
+          
+              // Part 2
+              // ...
+          }
+      }
+  }
 
-    printf("address? ");
-    address = read_long();
-    printf("jumping to %p\n", (void *)address);
-    ((void (*)(char *))address)("cat /flag");
+  puts("Bad input");
+  return 0xffffffff;
 }
 ```
-which, given a specific address to a function with one `char *` argument, 
-will print the flag from a file. One suitable candidate is the function 
-`int system(const char *command)`, which would execute a shell command.
 
-However, since the binary is dynamically linked, there is no easy way to 
-obtain the address of the _glibc_ function, as at runtime it would not
-remain fixed.
+We need an input that is less than 35 characters long.
 
-### Use-After-Free
-Looking closely, we find that dangling pointers for free'd `task` objects
-are not taken care of and are actually still read when printing the `task` names
-in `void list_tasks()`. We could exploit this vulnerability, if we can
-somehow overwrite the contents of once free'd heap elements.
+### Stage 1
 
-## Approach
-After countless of hours searching, I came across some articles explaining
-heap implementation internals and possible exploits, 
-some of which still remains unclear to me.
-Specifically, how malloc'd blocks, called _chunks_, are laid out in
-heap memory and what happens when they are free'd. I recommend you
-to read up on this if you haven't already
-[[Malloc Internals](https://sourceware.org/glibc/wiki/MallocInternals), [Heap Exploitation](https://heap-exploitation.dhavalkapil.com/)].
+The first stage function seems fairly easy once you have mapped the decompiled Ghidra stack
+variables to the function parameters and removed the bloat; Here is the trimmed down version:
+```c
+uint FUN_stage1(undefined8 _,char** argv)
+{
+  // our input string
+  char *pcVar1 = argv[1];
+  uint uVar2;
+  ulong uVar3;
+  
+  // check string length >= 11 
+  uVar3 = FUN_00400bc0(pcVar1);
+  if (uVar3 < 0xb) 
+      return 0;
 
-Let us quickly inspect a created `task` with a name of 64 A's on the heap:
+  if (pcVar1[0] != '1')
+    return 0;
 
-![single_task_heap_dump.png](./images/single_task_heap_dump.png)
+  if (pcVar1[1] != '_')
+    return 0;
+
+  if (pcVar1[2] != 'k')
+    return 0;
+
+  do {
+    do {
+      if (((DAT_006eeef4 - 1) * DAT_006eeef4 & 1) == 0) {
+        if (pcVar1[3] != 'n') {
+          return 0;
+        }
+        if (pcVar1[4] != '0') {
+          return 0;
+        }
+        if (pcVar1[5] != 'w') {
+          return 0;
+        }
+        goto LAB_00400a7b;
+      }
+
+LAB_00400a2c:
+    } while ((int)DAT_006eeef8 < 0x27);
+  } while( true );
+
+  
+  uVar2 = 0;
+  if (pcVar1[6] == '_' && pcVar1[7] == 'h') {
+    
+    if (pcVar1[8] == '0') {
+      
+      if (pcVar1[9] == 'w')
+        uVar2 = uVar2 & 0xffffff00 | (uint)(pcVar1[10] == '_');
+    }
+  }
+  return uVar2;
+}
+```
+
+We can directly read out the first 11 characters of the correct 
+input string: `1_kn0w_h0w_`.
 
 
-The green box indicates the memory block for user data, starting
-at `0x5555555592a0`; This is what malloc returns. We can see our 64 'A' characters,
-`0x41` in hex.
-The red box
-is the actual allocated chunk, which contains additional metadata
-in the header: The size, in this case `0xa` = 160, which is constant
-for every `task` element (its `name` member is 144 bytes + 16 bytes alignment on 64-bit systems),
-and 1 bit indicating that the previous block is "in use" (the are actually 3 flags for the 
-3 least significant bits, but for the sake of brevity we will skip the other two).
+### Stage 2
+The second stage definitely needed more trimming and multiple debug runs
+to correctly identify the involved variables:
+```c
+undefined8 stage_2(void)
+{
+  int uVar3;
+  
+  char bVar4;
+  char cVar5;
+  char bVar6;
+  char bVar7;
 
-![chunk.png](./images/chunk.png)
-[Source: Allocated Chunk and Free'd Chunk](https://tc.gts3.org/cs6265/2019/tut/img/heap/heap.svg)
+  // represents argv
+  char* in_RSI;
+  char* argv_1 = in_rsi[1];
+  
+  int uVar2 = return_argv_length();
+  
+  
+  switch(uVar2 < 15) {
+    case false:
+        bVar4 = -argv_1[11];
+
+        cVar5 = 2 * (bVar4 & 0x67) + (bVar4 ^ 0xe7);
+        bVar4 = -cVar5 - 0x19;
+        bVar6 = cVar5 + 0x18;
+        
+        switch( (char)( 2 * (bVar4 & 0xd0) + (((bVar6 & bVar4 | bVar6) ^ bVar4) & 0xd0 ^ bVar4)) < 10 ) {
+            case false:
+                uVar3 = 0;
+                break;
+
+            case true:
+                bVar6 = - argv_1[12];
+                bVar4 = bVar6 ^ 0x30;
+
+                switch((char)-((~bVar4 & bVar6) * '\x02' + bVar4) < 10) {
+                    case false:
+                        uVar3 = 0;
+                        break;
+                    
+                    case true:
+                        bVar4 = argv_1[13] - 0x39;
+                        bVar6 = ~bVar4;
+                        
+                        switch((char)(~(~(bVar4 ^ 0x2f) & ~(bVar6 ^ bVar4 ^ 0x2f) | bVar6) * 2 + (bVar4 & 0x2f | bVar6 & 0xd0) + 0x39) < 10) {
+                            case false:
+                                uVar3 = 0;
+                                break;
+                            case true:
+                                bVar4 = argv_1[14];
+                                bVar7 = ~bVar4;
+                                bVar6 = ~(~(bVar4 & 0xd0 | bVar7 ^ 0x2f) | bVar7 & (bVar7 ^ 0x2f) | bVar4 & 0x2f) * '\x02';
+
+                                bVar7 = (bVar7 & 0xd0 ^ bVar4 & 0x2f) + 0x5f;
+          
+                                switch((char)((bVar7 & bVar6) * '\x02' + (bVar7 ^ bVar6) + 0xa1) < 10) {
+                                    case false:
+                                        uVar3 = 0;
+                                        break;
 
 
-So what would happen if we were to free this chunk?
+                                    // Last sanity check
+                                    case true:
+                                        uVar3 = CONCAT71(0xa6e3a29dbfb830,
+                                                    *(short *) ( 2 * (0x2c8e2eb120231781 + 
+                                                                  (ulong) argv_1[11] * 1000 + 
+                                                                  (ulong) argv_1[12] * 100 +
+                                                                  (ulong) argv_1[13] * 10 + 
+                                                                  (ulong)argv_1[14])  
+                                                                  + 0x48b7c0) == 0x3419);
+                                    }
+                            }
+                    }
+            }
+        
+        break;
+  
+    case true:
+        uVar3 = 0;
+    }
+    return uVar3;
+}
+```
 
-![first_free_heap_dump.png](./images/first_free_heap_dump.png)
-
-Interesting! The first 16 bytes of user data were overwritten with seemingly
-random values. But we do not care about these values for now. What is more
-interesting is happening behind the scenes.
-
-### Arenas and Bins
-When chunks gets free'd, they get stored in various lists based on chunk properties
-such as size and/or history, and they are readily available in them until an allocation is requested.
-These lists are called _bins_ and are characterized
-as follows:
-- _Fast Bins_: only very small chunks are stored in here, for fast access
-- _Small_ and _Large_ Bins: chunks stored in these bins can be coalesced into bigger chunks
-- _Unsorted Bin_: All free'd chunks are initially (not really, see below) put in this bin and are sorted
-  and moved into different bin groups later during malloc
-
-There is also another "collection of bins" called _TCache_, which is optimized for 
-multi-hreaded programs. In fact, all free'd chunks are moved into the Tcache
-at first. Small/Large bins and Fast bins are subdivided based on chunk size, 
-i.e. chunks assigned to Small bins and Fast bins are put to its respective size bin,
-whereas in individual Large bins the chunk sizes might not be identical.
-The former fact also pertains to TCache, where each size cache by default
-can hold up to [7 free'd chunks](https://www.gnu.org/software/libc/manual/html_node/Memory-Allocation-Tunables.html#index-glibc_002emalloc_002etcache_005fcount) 
-before they get moved to the Unsorted bin.
-
-Let us verify that our first free'd `task` is indeed in one of the caches of TCache:
-
-![freed_task_tcache.png](./images/freed_task_tcache.png)
-
-Let us now rerun and add 8 `tasks` and delete the last 7 `tasks`, keeping
-the first `task` untouched:
-
-![seven_freed_tasks_tcache.png](./images/seven_freed_tasks_tcache.png)
-
-Certainly, the cache for chunk size `0xa0` holds our 7 freed elements.
-The heap dump:
-![seven_freed_tasks_heap_dump.png](./images/re_seven_freed_tasks_heap_dump.png)
-
-What happens if we free the first `task 0`?
-
-![seven_freed_tasks_heap_dump.png](./images/unsorted_bin.png)
-
-Unsurprisingly, the chunk gets moved to the Unsorted bin. However, 
-we can now see that the chunk is pointing to an interesting looking
-address `0x7ffff7e19ce0 <main_arena+96>`. Each free'd chunk has forward `fd`
-and backward `fd` pointers in the circular list, which is why our free'd
-`task 0` at `0x555555559290` is pointing from "left and right" to it.
-
-### Resolution
-
-But why is this `<main_arena+96>` address so important?
-Well, it turns out that this address is a pointer to  _Main Arena's_
-**top chunk** member variable. An Arena is a region of memory, of which
-there can be more than one. The main arena corresponds to the main thread's
-initial heap. The top chunk is the largest non-allocated chunk on the heap.
-When a free'd chunk is first inserted into the Unsorted bin, 
-[its `fd` and `bk` pointers are set to the pointer of the top member variable of main_arena](https://codebrowser.dev/glibc/glibc/malloc/malloc.c.html#4622).
-
-Since the struct object for `main_arena` is static, we can obtain
-its fixed offset to glibc and with that glibc's base address.
-With the glibc base address we can also find the address of the static function
-`int system(const char *command)`.
-
-![offsets.png](./images/offsets.png)
-
-As seen above, `fd` and `bk` of the free'd `task 0` chunk contain our address 
-of interest which can easily be printed by `void list_tasks()`.
- After some manipulation the `system` address can be determined and the flag printed.
-
+Unlike in stage 1, the next 4 input characters `argv[11 - 14]` are now transformed before undergoing checks.
+After the initial checks are done, we can see that the final check compares a transformed `uint64` number
+to `0x3419`. I just created a crude [gen_stage2.c](./gen_stage2.c) program which uses 4 loops to enumerate
+all possible ASCII characters. It correctly finds the intermediate input string: `1_kn0w_h0w_2448`.
 
 ## Flag
 // First four letters in Uppercase

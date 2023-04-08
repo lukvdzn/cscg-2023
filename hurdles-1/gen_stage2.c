@@ -57,10 +57,10 @@ int main(int argc, char** argv)
 
                     
                     
-                    unsigned long tmp = (unsigned long long) i * 1000 + 
-                                        (unsigned long long) j * 100 +
-                                        (unsigned long long) k * 10 + 
-                                        (unsigned long long) l;
+                    unsigned long tmp = (unsigned long) i * 1000 + 
+                                        (unsigned long) j * 100 +
+                                        (unsigned long) k * 10 + 
+                                        (unsigned long) l;
                     
                     tmp -= 0xd371d14edfdce87f;
                     tmp *= 2;
@@ -69,7 +69,7 @@ int main(int argc, char** argv)
 		     
                     if ( tmp == 0x48cae0 || tmp == 0x48ea27 )
                         // Final input found
-			printf("1_kn0w_h0w_%c%c%c%c\n", i, j, k, l);
+			            printf("Found: 1_kn0w_h0w_%c%c%c%c\n", i, j, k, l);
                 }
 
             }
