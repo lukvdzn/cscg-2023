@@ -198,8 +198,8 @@ undefined8 stage_2(void)
 
 Unlike in stage 1, the next 4 input characters `argv[11 - 14]` are now transformed before undergoing checks.
 After the initial checks are done, we can see that the final check compares a transformed `uint64` number
-to `0x3419`. I just created a crude [gen_stage2.c](./gen_stage2.c) program which uses 4 loops to enumerate
-all possible ASCII characters. It correctly finds the intermediate input string: `1_kn0w_h0w_2448`.
+to `0x3419`. A crude [gen_stage2.c](./gen_stage2.c) program which uses 4 loops to enumerate
+all possible ASCII characters correctly finds the intermediate input string: `1_kn0w_h0w_2448`.
 
 ## Flag
 // First four letters in Uppercase
