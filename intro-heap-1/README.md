@@ -1,8 +1,6 @@
 ### ID: torukmagto
 
 # Heap Manipulation Craft
-(This challenge, deemed an introduction to heap exploits, truly proved to be an extremely 
-frustrating problem for my inexperienced a**.)
 
 ## Source Code Analysis
 The supplied binary is accompanied by its source code [main.c](./challenge-files/main.c),
