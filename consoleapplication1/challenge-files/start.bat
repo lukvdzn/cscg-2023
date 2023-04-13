@@ -1,0 +1,1 @@
+AppJailLauncher.exe /nojail /port:4444 ConsoleApplication1.exe
