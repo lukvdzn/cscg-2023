@@ -19,7 +19,7 @@ User ID: torukmagto
 - [x] Intro to Reverse Engineering 1
 - [x] Intro to Reverse Engineering 2
 - [x] Intro to Reverse Engineering 3
-- [ ] Traps
+- [x] Traps
 
 #### Pwn
 - [x] ConsoleApplications1

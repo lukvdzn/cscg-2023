@@ -5,7 +5,10 @@
 Reverse engineering is one of my favorite categories; however, as this is my first time coming into contact with CTFs and binary cracking in general, 
 it certainly proved to be a daunting yet fulfilling experience. 
 Staring at assembly code for hours trying to find patterns at such a low level can truly drive anybody crazy. 
-Persistence is key.
+However,
+I want to stress that I gained an invaluable amount of knowledge from this competition.
+I would like to thank the organizers of CSCG 2023 and especially the discord community 
+for presenting their ingenious approaches to these problems.
 
 
 ## Reverse Engineering

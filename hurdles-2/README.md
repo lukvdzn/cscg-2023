@@ -5,7 +5,11 @@
 ## Reverse Engineering
 As mentioned in [Hurdles Part 1](../hurdles-1/README.md),
 the challenge is split into two parts. This is the second, much, much harder part
-with stages {3,4}.
+with stages {3,4}. (In hindsight it would have been
+much easier to have used the symbolic analysis platform [angr](https://angr.io/)
+and a theorem solver such as [z3](https://github.com/Z3Prover/z3), however,
+due to my inexperience, it was not until the [traps](../traps/README.md) challenge 
+when I finally got to know a few of the powerful tools used in reverse engineering)
 
 ### Stage 3
 The trimmed decompiled Ghidra code with edited variable/function signatures looks
@@ -151,7 +155,6 @@ for the least significant byte (`input[18]`)
 and work our way up. Indeed, by doing so yielded the next 8 valid 
 characters at their respective indices. 10 characters to find remain
 for the last stage.
-
 
 ### Stage 4
 Analyzing the decompiled Ghidra code would be pointless, since the 

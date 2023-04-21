@@ -1,0 +1,133 @@
+
+char qbuff = {
+    0x4b77d34ec5485884,	0x48baad88fd1a5009, 0xb4072a146dd78ed7,	0x52114b49c7ee3d78, 
+    0xe5502117ef8b0527,	0x092b5aa44e3c709c, 0x3a3f1a95a68984b9,	0x42e17041996414f8,
+    0x0653b817546ef146,	0x3817ecc7821c2dfe, 0x5dbea3cafc5165ea,	0x112586462aed09dd, 
+    0xe3c7a18f941275b6,	0x9e8ac071d1413e17, 0x2149a56e413a98a2,	0x938f0a1786110803,
+    0x1fada05c327cacf3,	0xf4b1b977a0be94b8, 0x4617bbf3914c1e3f,	0x1e83af0034a79386
+};
+
+char bbuff = {
+    0x7f, 0xde, 0x53, 0x82, 0x86, 0x84, 0x87, 0x83, 0x83, 0x87, 0x86, 0x85, 
+    0x84, 0x85, 0x81, 0x82, 0x81, 0x81, 0x84, 0x4b
+};
+
+
+undefined8 main(void)
+{
+  int64_t rip_child;
+  int extraout_EAX;
+  int pid_child;
+  int iVar2;
+  long lVar3;
+  void *addr;
+  ulong j;
+  long inc_c;
+  int64_t *local_140;
+  uint child_wstatus;
+  int64_t regs_struct [27];
+
+  
+  
+  pid_child = __getpid();
+
+  pid_child = fork();
+  
+    if (pid_child == 0) {
+        /* PTRACE_TRACEME: indicates that child wants to be traced by parent */
+        lVar3 = ptrace(PTRACE_TRACEME, 0, NULL, NULL);
+        
+        set_fs_minus_0x48_0x16(0x13);
+        exit_with_additions_wrapper();
+        pid_child = extraout_EAX;
+    }
+
+    [assert!FAIL]   iVar2 = _waitpid(pid_child, &child_wstatus, __WALL);
+
+    /* PTRACE_SETOPTIONS: PTRACE_O_KILL, make sure child also exits if parent exits. */
+    [assert!FAIL]   lVar3 = ptrace(PTRACE_SETOPTIONS, pid_child, NULL, PTRACE_O_KILL);
+    
+    /* PTRACE_CONT: restart child process and send SIGCONT(0x12) to child */
+    [assert!FAIL]   lVar3 = ptrace(PTRACE_CONT, pid_child, NULL, SIGCONT);
+
+    
+    
+    inc_c = 0;
+
+    for (int i = 0; i < 20; ++i)
+    {
+        q = qbuff[i];
+        b = bbuff[i];
+
+        [assert!FAIL]   iVar2 = _waitpid(pid_child, &child_wstatus, __WALL);
+        
+        /* PTRACE_GETREGS: get registers of child */
+        [assert!FAIL]   lVar3 = ptrace(PTRACE_GETREGS, pid_child, NULL, regs_struct);
+        
+        rip_child = regs_struct[16];
+
+        regs_struct[13] = (ulong) b; // RSI
+        regs_struct[14] = q;         // RDI
+
+        /* PTRACE_SETREGS: set registers of child */
+        [assert!FAIL]   lVar3 = ptrace(0xd, pid_child, NULL, regs_struct);
+        
+        addr = (void *)(rip_child + 0x86);
+        
+        if (b >> 3 != 0) { 
+            j = 0;
+
+            do {
+                /* PTRACE_POKETEXT: copy word data to addr */
+                [assert!FAIL]   lVar3 = ptrace(PTRACE_POKETEXT, pid_child, addr, *(void **)(&DAT_004019db + j * 8 + inc_c));
+                
+                j = j + 1;
+                addr = (void *)((long)addr + 8);
+            } while (j != b >> 3);
+
+        }
+
+        inc_c += (ulong)b;
+        
+        /* PTRACE_CONT: restart child process and send SIGCONT(0x12) to child. */
+        [assert!FAIL]   lVar3 = ptrace(PTRACE_CONT, pid_child, NULL, SIGCONT);
+    }
+
+    pid_child = _waitpid(pid_child, &child_wstatus, __WALL);
+    
+    if (child_exited with success) {
+        return 0;
+    }
+}
+
+
+struct user_regs_struct
+{
+  __extension__ unsigned long long int r15; // 0
+  __extension__ unsigned long long int r14;
+  __extension__ unsigned long long int r13;
+  __extension__ unsigned long long int r12;
+  __extension__ unsigned long long int rbp;
+  __extension__ unsigned long long int rbx;  // 5
+  __extension__ unsigned long long int r11;
+  __extension__ unsigned long long int r10;
+  __extension__ unsigned long long int r9;
+  __extension__ unsigned long long int r8;
+  __extension__ unsigned long long int rax;  // 10
+  __extension__ unsigned long long int rcx;
+  __extension__ unsigned long long int rdx;
+  __extension__ unsigned long long int rsi; // 13
+  __extension__ unsigned long long int rdi; // 14
+  __extension__ unsigned long long int orig_rax;
+  __extension__ unsigned long long int rip; // 16
+  __extension__ unsigned long long int cs;
+  __extension__ unsigned long long int eflags;
+  __extension__ unsigned long long int rsp;
+  __extension__ unsigned long long int ss;
+  __extension__ unsigned long long int fs_base;
+  __extension__ unsigned long long int gs_base;
+  __extension__ unsigned long long int ds;
+  __extension__ unsigned long long int es;
+  __extension__ unsigned long long int fs;
+  __extension__ unsigned long long int gs; // 26
+};
